@@ -1,0 +1,39 @@
+{
+  "name": "contextbridge",
+  "version": "1.0.0",
+  "description": "Transfer AI chat conversations between Claude, ChatGPT, and Gemini seamlessly.",
+  "author": "Your Name",
+  "license": "MIT",
+  "scripts": {
+    "dev": "node scripts/watch.js",
+    "build:chrome": "node scripts/build.js chrome",
+    "build:firefox": "node scripts/build.js firefox",
+    "build:all": "node scripts/build.js chrome && node scripts/build.js firefox",
+    "package:chrome": "node scripts/build.js chrome && cd dist/chrome && zip -r ../../releases/contextbridge-chrome.zip .",
+    "package:firefox": "node scripts/build.js firefox && cd dist/firefox && zip -r ../../releases/contextbridge-firefox.zip .",
+    "generate:icons": "node scripts/generate-icons.js",
+    "lint": "eslint . --ext .js",
+    "clean": "rm -rf dist releases"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "fs-extra": "^11.2.0",
+    "sharp": "^0.33.3",
+    "chokidar": "^3.6.0"
+  },
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "webextensions": true,
+      "es2022": true
+    },
+    "rules": {
+      "no-unused-vars": "warn",
+      "no-console": "off",
+      "prefer-const": "error"
+    }
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

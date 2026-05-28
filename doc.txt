@@ -1,0 +1,4 @@
+npm install
+npm run generate:icons   # creates icons/icon16.png, icon48.png, icon128.png
+npm run build:chrome     # builds to dist/chrome/
+npm run build:firefox    # builds to dist/firefox/

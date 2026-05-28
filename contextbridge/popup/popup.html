@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ContextBridge</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- ── Header ── -->
+    <header class="header">
+      <div class="logo">
+        <span class="logo-icon">⟷</span>
+        <span class="logo-text">ContextBridge</span>
+      </div>
+      <button class="icon-btn" id="settingsBtn" title="Settings">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83
+            2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1
+            1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65
+            0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65
+            0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65
+            1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0
+            1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0
+            1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65
+            0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65
+            0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65
+            1.65 0 0 0-1.51 1z"/>
+        </svg>
+      </button>
+    </header>
+
+    <!-- ── Platform Badge ── -->
+    <div class="platform-row">
+      <span class="platform-label">Detected:</span>
+      <span class="platform-badge" id="platformBadge">Detecting...</span>
+    </div>
+
+    <!-- ── Error Banner ── -->
+    <div class="banner banner--error hidden" id="errorBanner">
+      <span class="banner-icon">⚠</span>
+      <span class="banner-text" id="errorText"></span>
+      <button class="banner-close" id="errorClose">✕</button>
+    </div>
+
+    <!-- ── Unsupported State ── -->
+    <div class="state-block hidden" id="unsupportedState">
+      <div class="state-icon">🔌</div>
+      <p class="state-title">Not an AI platform</p>
+      <p class="state-sub">
+        Navigate to one of these to get started:
+      </p>
+      <ul class="platform-list">
+        <li>🟠 claude.ai</li>
+        <li>🟢 chatgpt.com</li>
+        <li>🔵 gemini.google.com</li>
+      </ul>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         STEP 1 — Extract
+    ══════════════════════════════════════════ -->
+    <div class="step hidden" id="step1">
+      <p class="step-hint">
+        Open a chat with messages, then click below to extract the full conversation.
+      </p>
+      <button class="btn btn--primary btn--full" id="extractBtn">
+        <span class="btn-icon">📋</span>
+        Extract Conversation
+      </button>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         STEP 2 — Configure & Transfer
+    ══════════════════════════════════════════ -->
+    <div class="step hidden" id="step2">
+
+      <!-- Preview header -->
+      <div class="preview-header">
+        <span class="turns-badge" id="turnsCount">0 messages</span>
+        <span class="tokens-badge" id="tokensCount">~0 tokens</span>
+        <button class="link-btn" id="resetBtn">↩ Reset</button>
+      </div>
+
+      <!-- Conversation preview -->
+      <div class="preview-box" id="previewBox"></div>
+
+      <!-- Transfer Mode -->
+      <p class="field-label">Transfer Mode</p>
+      <div class="radio-group">
+
+        <label class="radio-card" id="modeRawCard">
+          <input type="radio" name="mode" value="raw" checked />
+          <div class="radio-card-body">
+            <span class="radio-card-title">📄 Raw Copy</span>
+            <span class="radio-card-sub">Full transcript — no API key needed</span>
+          </div>
+        </label>
+
+        <label class="radio-card" id="modeSummaryCard">
+          <input type="radio" name="mode" value="summary" />
+          <div class="radio-card-body">
+            <span class="radio-card-title">✨ AI Summary</span>
+            <span class="radio-card-sub">Smart brief via Gemini — requires API key</span>
+          </div>
+        </label>
+
+      </div>
+
+      <!-- Target Platform -->
+      <p class="field-label">Transfer To</p>
+      <div class="platform-grid" id="platformGrid"></div>
+
+      <!-- Transfer Button -->
+      <button class="btn btn--primary btn--full" id="transferBtn" disabled>
+        <span class="btn-icon">🚀</span>
+        <span id="transferBtnText">Select a target platform</span>
+      </button>
+
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         STEP 3 — Processing
+    ══════════════════════════════════════════ -->
+    <div class="step hidden" id="step3">
+      <div class="processing-block">
+        <div class="spinner"></div>
+        <p class="processing-title" id="processingTitle">Processing...</p>
+        <p class="processing-sub" id="processingSub">Please wait</p>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         STEP 4 — Success
+    ══════════════════════════════════════════ -->
+    <div class="step hidden" id="step4">
+      <div class="success-block">
+        <div class="success-icon-wrap">✓</div>
+        <p class="success-title">Transfer Complete!</p>
+        <p class="success-sub">
+          The conversation has been injected into the new tab.
+          Review it and press Send.
+        </p>
+        <button class="btn btn--secondary btn--full" id="transferAgainBtn">
+          ↩ Transfer Again
+        </button>
+      </div>
+    </div>
+
+  </div><!-- /.container -->
+
+  <script src="popup.js"></script>
+</body>
+</html>
