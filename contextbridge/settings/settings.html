@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ContextBridge — Settings</title>
+  <link rel="stylesheet" href="settings.css" />
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- Header -->
+    <header class="header">
+      <div class="logo">
+        <span class="logo-icon">⟷</span>
+        <span class="logo-text">ContextBridge</span>
+      </div>
+      <span class="header-sub">Settings</span>
+    </header>
+
+    <!-- Success Banner -->
+    <div class="banner banner--success hidden" id="successBanner">
+      <span>✓</span>
+      <span id="successText">Settings saved.</span>
+    </div>
+
+    <!-- Error Banner -->
+    <div class="banner banner--error hidden" id="errorBanner">
+      <span>⚠</span>
+      <span id="errorText"></span>
+    </div>
+
+    <!-- ── Section: API Key ── -->
+    <section class="section">
+      <h2 class="section-title">Gemini API Key</h2>
+      <p class="section-desc">
+        Required for <strong>AI Summary</strong> mode. Your key is stored locally
+        on your device and never sent anywhere except Google's Gemini API.
+      </p>
+      <div class="field-group">
+        <label class="field-label" for="apiKeyInput">API Key</label>
+        <div class="input-row">
+          <input
+            class="input"
+            type="password"
+            id="apiKeyInput"
+            placeholder="AIza..."
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <button class="icon-btn" id="toggleKeyBtn" title="Show/hide key">👁</button>
+        </div>
+        <p class="field-hint">
+          Get your free key at
+          <a href="https://aistudio.google.com/app/apikey" target="_blank">
+            aistudio.google.com
+          </a>
+        </p>
+      </div>
+    </section>
+
+    <!-- ── Section: Transfer Defaults ── -->
+    <section class="section">
+      <h2 class="section-title">Transfer Defaults</h2>
+
+      <div class="field-group">
+        <label class="field-label" for="modeSelect">Default Transfer Mode</label>
+        <select class="input" id="modeSelect">
+          <option value="raw">📄 Raw Copy — full transcript</option>
+          <option value="summary">✨ AI Summary — Gemini-powered brief</option>
+        </select>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label" for="maxTurnsInput">
+          Max Conversation Turns to Extract
+        </label>
+        <input
+          class="input"
+          type="number"
+          id="maxTurnsInput"
+          min="1"
+          max="500"
+          placeholder="100"
+        />
+        <p class="field-hint">
+          Limits how many messages are read from the page (1–500). Higher values
+          capture more context but produce longer prompts.
+        </p>
+      </div>
+
+      <div class="toggle-row">
+        <div class="toggle-info">
+          <span class="toggle-label">Auto-Send After Injection</span>
+          <span class="toggle-desc">
+            Automatically submit the prompt in the target platform after injection.
+            Leave off to review before sending.
+          </span>
+        </div>
+        <label class="toggle" for="autoSendToggle">
+          <input type="checkbox" id="autoSendToggle" />
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+    </section>
+
+    <!-- ── Section: Appearance ── -->
+    <section class="section">
+      <h2 class="section-title">Appearance</h2>
+      <div class="field-group">
+        <label class="field-label" for="themeSelect">Theme</label>
+        <select class="input" id="themeSelect">
+          <option value="dark">🌙 Dark</option>
+          <option value="light">☀️ Light</option>
+        </select>
+      </div>
+    </section>
+
+    <!-- ── Section: Data ── -->
+    <section class="section">
+      <h2 class="section-title">Data & Privacy</h2>
+      <p class="section-desc">
+        ContextBridge stores only your settings locally. No conversation data
+        is ever saved to disk or sent to any server (except when you use
+        Summary mode, which sends the conversation to Google's Gemini API
+        using your own key).
+      </p>
+      <button class="btn btn--danger" id="clearDataBtn">
+        🗑 Reset All Settings
+      </button>
+    </section>
+
+    <!-- ── Footer ── -->
+    <div class="footer-actions">
+      <button class="btn btn--secondary" id="cancelBtn">Cancel</button>
+      <button class="btn btn--primary" id="saveBtn">Save Settings</button>
+    </div>
+
+  </div>
+
+  <script src="settings.js"></script>
+</body>
+</html>
